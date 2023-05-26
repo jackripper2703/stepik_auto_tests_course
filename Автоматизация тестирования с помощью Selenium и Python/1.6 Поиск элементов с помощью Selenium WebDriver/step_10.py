@@ -1,24 +1,27 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.chrome.service import Service
 
+chrome_driver_path = '/Users/dev/JACK RIPPER/chrome/chromedriver'
+service = Service(chrome_driver_path)
+browser = webdriver.Chrome(service=service)
+
+LINK = "http://suninjuly.github.io/registration1.html"
+browser.get(LINK)
 try:
-    link = "http://suninjuly.github.io/registration1.html"
-    browser = webdriver.Chrome()
-    browser.get(link)
+    # Заполнение обязательных полей
+    input1 = browser.find_element(By.CSS_SELECTOR, ".first_block .first")
+    input1.send_keys("Gordon")
+    input2 = browser.find_element(By.CSS_SELECTOR, ".first_block .second")
+    input2.send_keys("Freeman")
+    input3 = browser.find_element(By.CSS_SELECTOR, ".first_block .third")
+    input3.send_keys("gordon@freem.an")
 
-    # Ваш код, который заполняет обязательные поля
-    first_name = browser.find_element(By.CSS_SELECTOR, '[placeholder="Input your first name"]')
-    first_name.send_keys("Jack")
-    last_name = browser.find_element(By.CSS_SELECTOR, '[placeholder="Input your last name"]')
-    last_name.send_keys("Ripper")
-    placeholder="Input your email"
-    email = browser.find_element(By.CSS_SELECTOR, '[placeholder="Input your email"]')
-    email.send_keys("sad.sadsad.sad@ya.ru")
-
-    # Отправляем заполненную форму
-    button = browser.find_element(By.CSS_SELECTOR, "button.btn")
+    # Отправка заполненной формы
+    button = browser.find_element(By.CSS_SELECTOR, "button[type = 'submit']")
     button.click()
+
 
     # Проверяем, что смогли зарегистрироваться
     # ждем загрузки страницы

@@ -1,12 +1,16 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.chrome.service import Service
+
+chrome_driver_path = '/Users/dev/JACK RIPPER/chrome/chromedriver'
+service = Service(chrome_driver_path)
+browser = webdriver.Chrome(service=service)
+
+LINK = "http://suninjuly.github.io/registration2.html"
+browser.get(LINK)
 
 try:
-    link = "http://suninjuly.github.io/registration2.html"
-    browser = webdriver.Chrome()
-    browser.get(link)
-
     # Ваш код, который заполняет обязательные поля
     first_name = browser.find_element(By.CSS_SELECTOR, '[placeholder="Input your first name"]')
     first_name.send_keys("Jack")
