@@ -1,0 +1,7 @@
+pip~=23.1.1
+attrs~=23.1.0
+cryptography~=40.0.2
+py~=1.11.0
+setuptools~=65.5.0
+selenium~=4.3.0
+urllib3~=1.26.15
