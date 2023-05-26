@@ -9,7 +9,6 @@ service = Service(chrome_driver_path)
 browser = webdriver.Chrome(service=service)
 
 class Test_uni(unittest.TestCase):
-    LINK = "http://suninjuly.github.io/registration1.html"
 
     def step_11(self, link):
         browser.get(link)
