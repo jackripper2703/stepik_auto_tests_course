@@ -5,7 +5,7 @@ import time
 link = "http://suninjuly.github.io/simple_form_find_task.html"
 
 try:
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome("/Users/dev/JACK RIPPER/chrome/chromedriver")
     browser.get(link)
 
     input1 = browser.find_element(By.TAG_NAME, "input")
