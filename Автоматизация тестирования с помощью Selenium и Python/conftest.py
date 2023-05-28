@@ -1,6 +1,7 @@
 import pytest
 import time
 import math
+from config import loggin, password
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -34,8 +35,8 @@ def auth(driver):
     auth = driver.find_element(By.CSS_SELECTOR, "[href$='/step/1?auth=login']")
     auth.click()
 
-    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys("")
-    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys("")
+    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys(loggin)
+    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys(password)
     driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
 
 @pytest.fixture()
