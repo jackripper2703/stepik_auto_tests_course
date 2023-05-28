@@ -4,7 +4,6 @@ import math
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-final = ""
 
 link = [
     "https://stepik.org/lesson/236895/step/1",
@@ -21,9 +20,9 @@ link = [
 @pytest.fixture(params=link)
 def driver(request):
     options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     driver = webdriver.Chrome(options=options)
-
     driver.get(request.param)
     driver.implicitly_wait(10)
     yield driver
@@ -35,8 +34,8 @@ def auth(driver):
     auth = driver.find_element(By.CSS_SELECTOR, "[href$='/step/1?auth=login']")
     auth.click()
 
-    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys("")
-    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys("")
+    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys("sad.sadsad.sad@yandex.ru")
+    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys("kingpen224")
     driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
 
 @pytest.fixture()
@@ -56,10 +55,6 @@ def answer(driver):
 def correct(driver):
     checkout = driver.find_element(By.CSS_SELECTOR, ".smart-hints__hint")
     text_answer = checkout.text
-    try:
-        assert 'Correct!' == text_answer
-    except AssertionError:
-        final += text_answer
     assert text_answer == "Correct!", print(text_answer)
 
 
