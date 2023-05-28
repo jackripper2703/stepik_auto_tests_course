@@ -4,6 +4,7 @@ import math
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+final = ""
 
 link = [
     "https://stepik.org/lesson/236895/step/1",
@@ -34,8 +35,8 @@ def auth(driver):
     auth = driver.find_element(By.CSS_SELECTOR, "[href$='/step/1?auth=login']")
     auth.click()
 
-    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys("sad.sadsad.sad@yandex.ru")
-    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys("kingpen224")
+    driver.find_element(By.CSS_SELECTOR, "[name='login']").send_keys("")
+    driver.find_element(By.CSS_SELECTOR, "[name='password']").send_keys("")
     driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
 
 @pytest.fixture()
@@ -43,7 +44,7 @@ def answer(driver):
     answer = str(math.log(int(time.time())))
     textarea = driver.find_element(By.CSS_SELECTOR, "textarea")
     xray = textarea.get_attribute("disabled")
-    if xray == False:
+    if not xray:
         text_value = textarea.get_attribute('value')
         if text_value:
             textarea.clear()
@@ -55,20 +56,24 @@ def answer(driver):
 def correct(driver):
     checkout = driver.find_element(By.CSS_SELECTOR, ".smart-hints__hint")
     text_answer = checkout.text
+    try:
+        assert 'Correct!' == text_answer
+    except AssertionError:
+        final += text_answer
     assert text_answer == "Correct!", print(text_answer)
 
 
-# @pytest.fixture(scope="function")
-# def register(driver):
-# input1 = driver.find_element(By.CSS_SELECTOR, ".first_block .first")
-# input1.send_keys("Gordon")
-# input2 = driver.find_element(By.CSS_SELECTOR, ".first_block .second")
-# input2.send_keys("Freeman")
-# input3 = driver.find_element(By.CSS_SELECTOR, ".first_block .third")
-# input3.send_keys("gordon@freem.an")
-# button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-# button.click()
-# time.sleep(2)
-# welcome_text_elt = driver.find_element(By.TAG_NAME, "h1")
-# welcome_text = str(welcome_text_elt.text)
-# return welcome_text
+@pytest.fixture(scope="function")
+def register(driver):
+    input1 = driver.find_element(By.CSS_SELECTOR, ".first_block .first")
+    input1.send_keys("Gordon")
+    input2 = driver.find_element(By.CSS_SELECTOR, ".first_block .second")
+    input2.send_keys("Freeman")
+    input3 = driver.find_element(By.CSS_SELECTOR, ".first_block .third")
+    input3.send_keys("gordon@freem.an")
+    button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+    button.click()
+    time.sleep(2)
+    welcome_text_elt = driver.find_element(By.TAG_NAME, "h1")
+    welcome_text = str(welcome_text_elt.text)
+    return welcome_text
