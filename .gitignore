@@ -4,3 +4,4 @@ TEST.py
 __pycache__
 .pytest_cache
 config.py
+geckodriver.log
