@@ -26,10 +26,10 @@ https://stepik.org/course/575/syllabus
   
   pip install -r requirements.txt
 
-Так же в главное директории нужно создать файл с вашим логином и паролем от stepik, для успшеных тестов авторизации:
+  Так же в главное директории нужно создать файл с вашим логином и паролем от stepik, для успшеных тестов авторизации:
 
 config.py
 
-loggin = ""
+  loggin = ""
 
-password = ""
+  password = ""
