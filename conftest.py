@@ -1,7 +1,7 @@
 import pytest
 import time
 import math
-from config import loggin, password
+from config import login, password
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
