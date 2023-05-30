@@ -1,33 +1,56 @@
+from selenium import webdriver
+from config import login, password
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
 import pytest
 import time
 import math
-from config import login, password
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-
 
 def pytest_addoption(parser):
-    parser.addoption('--browser_name', action='store', default="chrome",
-                     help="Choose browser: chrome or firefox")
+    parser.addoption('--lang', action='store', default="ru",
+                     help="Choose lang: ru or en")
+
+@pytest.fixture()
+def driver(request):
+    lang = request.config.getoption("lang")
+    options = Options()
+    options.add_experimental_option('prefs', {'intl.accept_languages': lang})
+    # options.add_argument('--headless')
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
+    yield driver
+    driver.quit()
 
 
-@pytest.fixture(scope="function")
-def browser(request):
-    browser_name = request.config.getoption("browser_name")
-    browser = None
-    if browser_name == "chrome":
-        print("\nstart chrome browser for test..")
-        browser = webdriver.Chrome()
-    elif browser_name == "firefox":
-        print("\nstart firefox browser for test..")
-        firefox_options = webdriver.FirefoxOptions()
-        firefox_options.headless = True
-        browser = webdriver.Firefox(executable_path="C:\geckodriver\geckodriver.exe", options=firefox_options)
-    else:
-        raise pytest.UsageError("--browser_name should be chrome or firefox")
-    yield browser
-    print("\nquit browser..")
-    browser.quit()
+# @pytest.fixture()
+# def get_link(driver):
+#     driver.get(link)
+
+
+# def pytest_addoption(parser):
+#     parser.addoption('--browser_name', action='store', default="chrome",
+#                      help="Choose browser: chrome or firefox")
+
+#
+# @pytest.fixture(scope="function")
+# def browser(request):
+#     browser_name = request.config.getoption("browser_name")
+#     browser = None
+#     if browser_name == "chrome":
+#         print("\nstart chrome browser for test..")
+#         browser = webdriver.Chrome()
+#     elif browser_name == "firefox":
+#         print("\nstart firefox browser for test..")
+#         firefox_options = webdriver.FirefoxOptions()
+#         firefox_options.headless = True
+#         browser = webdriver.Firefox(executable_path="C:\geckodriver\geckodriver.exe", options=firefox_options)
+#     else:
+#         raise pytest.UsageError("--browser_name should be chrome or firefox")
+#     yield browser
+#     print("\nquit browser..")
+#     browser.quit()
 
 # link = [
 #     "https://stepik.org/lesson/236895/step/1",
@@ -43,7 +66,8 @@ def browser(request):
 #
 # @pytest.fixture(params=link)
 # def driver(request):
-#     options = webdriver.ChromeOptions()
+#     options = Options()
+#     options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
 #     options.add_argument('--headless')
 #     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 #     driver = webdriver.Chrome(options=options)
